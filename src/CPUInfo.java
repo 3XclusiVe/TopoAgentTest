@@ -1,12 +1,13 @@
 
 
     //import the classes that we will use
-    import org.hyperic.sigar.CpuInfo;
-    import org.hyperic.sigar.Sigar;
-    import org.hyperic.sigar.SigarException;
+
+    import org.hyperic.sigar.*;
 
     //declare the CPUInfo class
     public class CPUInfo {
+
+
 
         /**
          * declare a constructor for CPUINFO
@@ -27,11 +28,27 @@
 // an array of CPU Info classes. The CPUInfo class is a blank data
 // holder class. Just like string it can hold any data.
             CpuInfo[] cpuInfoList = null;
+            org.hyperic.sigar.NetInfo netInfoList = null;
+            NetStat netstat =null;
+            NetRoute[] Route = null;
+            NetInterfaceConfig NeTInterfaceConfig  = null;
+            NetConnection[] NetCon = null;
+            //NetInfo Netinf = null
+
+
+            Tcp TCP = null;
 
 // the try catch block means that if we get an error we are notified
             try {
 // get the CPU information from the sigar library
                 cpuInfoList = sigar.getCpuInfoList();
+                netInfoList = sigar.getNetInfo();
+                netstat = sigar.getNetStat();
+                Route = sigar.getNetRouteList();
+                TCP = sigar.getTcp();
+                NeTInterfaceConfig = sigar.getNetInterfaceConfig();
+                NetCon = sigar.getNetConnectionList(1);
+               // Netinf = sigar.getNetInfo();
 
 // if something foes wrong
             } catch (SigarException e) {
@@ -46,6 +63,7 @@
             for (CpuInfo info : cpuInfoList) {
 // add the data to the output ( output += "something" means add
 // "something" to the end of output)
+
                 output += "\nCPU\n";
                 output += "Vendor: " + info.getVendor() + "\n";
                 output += "Core " + info.getCoresPerSocket() + "\n";
@@ -55,6 +73,58 @@
                 output += "Model " + info.getModel() + "\n";
                 output += "Clock: " + info.getMhz() + "Mhz\n";
             }
+            output += "--------Net Info-------\n\n";
+
+            output += "Default GateWay " + netInfoList.getDefaultGateway() + "\n";
+            output += "Domain Name " + netInfoList.getDomainName() + "\n";
+            output += "Host Name " + netInfoList.getHostName() + "\n";
+            output += "DNS " + netInfoList.getPrimaryDns() + "\n";
+            output += "S Dns " + netInfoList.getSecondaryDns() + "\n";
+
+            output += "TCP last ack " + netstat.getTcpLastAck() + "\n\n";
+
+            output += "-------Kernel Ip Table-------\n\n";
+
+            for (NetRoute Rout  : Route) {
+// add the data to the output ( output += "something" means add
+// "something" to the end of output)
+
+                output += " " + Rout.getDestination();
+                output += " " + Rout.getGateway();
+                output += " " + Rout.getFlags();
+                output += " " + Rout.getIfname();
+                output += " " + Rout.getIrtt();
+                output += " " + Rout.getMask();
+                output += " " + Rout.getMetric()+ "\n";
+            }
+
+            output += "--------NetStat-------\n\n";
+
+            output += "getAllInboundTotal " + netstat.getAllInboundTotal()+ "\n";
+            output += "AllOutboundTotal " + netstat.getAllOutboundTotal()+ "\n";
+            output += "getTcpBound " + netstat.getTcpBound()+ "\n";
+
+            output += "--------TCP-------\n\n";
+
+            output += "ActiveOpens " + TCP.getActiveOpens()+ "\n";
+            output += "EstabResets " + TCP.getEstabResets()+ "\n";
+
+            output += "--------NeT Interface Config-------\n\n";
+
+            output += "Description " + NeTInterfaceConfig.getDescription()+ "\n";
+            output += "Destination " + NeTInterfaceConfig.getDestination()+ "\n";
+            output += "Broadcast " + NeTInterfaceConfig.getBroadcast()+ "\n";
+
+
+            output += "--------Net connections-------\n\n";
+
+          //  output += "LocalAddress " + NetCon[0].getLocalAddress()+ "\n";
+           // output += "LocalPort " + NetCon[0].getLocalPort()+ "\n";
+            //output += "RemoteAddress " + NetCon[0].getRemoteAddress()+ "\n";
+            //output += "State " + NetCon[0].getStateString()+ "\n";
+
+
+
 
 // finally, print the data to the output
             System.out.println(output);
@@ -62,6 +132,8 @@
 
         public static void main(String[] args) {
             CPUInfo main = new CPUInfo();
+            org.hyperic.sigar.RPC rpc = new RPC();
+           System.out.println(rpc.ping("http://google.ru",rpc.TCP,100003,02242007L));
         }
     }
 
