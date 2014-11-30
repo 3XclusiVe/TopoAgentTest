@@ -2,6 +2,7 @@
 
     //import the classes that we will use
 
+    import TopoAgent.NetInterfaces;
     import org.hyperic.sigar.*;
 
     //declare the CPUInfo class
@@ -46,10 +47,11 @@
                 netstat = sigar.getNetStat();
                 Route = sigar.getNetRouteList();
                 TCP = sigar.getTcp();
-                NeTInterfaceConfig = sigar.getNetInterfaceConfig();
+                String[] Stringies = sigar.getNetInterfaceList();
                 NetCon = sigar.getNetConnectionList(1);
                // Netinf = sigar.getNetInfo();
 
+                System.out.print(Stringies[2]);
 // if something foes wrong
             } catch (SigarException e) {
 // write a description of the problem to the output
@@ -111,9 +113,10 @@
 
             output += "--------NeT Interface Config-------\n\n";
 
-            output += "Description " + NeTInterfaceConfig.getDescription()+ "\n";
-            output += "Destination " + NeTInterfaceConfig.getDestination()+ "\n";
-            output += "Broadcast " + NeTInterfaceConfig.getBroadcast()+ "\n";
+            //output += "Description " + str[0] "\n";
+           // output += "Destination " + NeTInterfaceConfig.getDestination()+ "\n";
+            //output += "Broadcast " + NeTInterfaceConfig.getBroadcast() + "\n";
+
 
 
             output += "--------Net connections-------\n\n";
@@ -127,13 +130,22 @@
 
 
 // finally, print the data to the output
-            System.out.println(output);
+            //System.out.println(output);
         }
 
-        public static void main(String[] args) {
-            CPUInfo main = new CPUInfo();
-            org.hyperic.sigar.RPC rpc = new RPC();
-           System.out.println(rpc.ping("http://google.ru",rpc.TCP,100003,02242007L));
+        public static void main(String[] args) throws SigarException, InterruptedException {
+
+            NetInterfaces netInterfaces = new NetInterfaces();
+           while(true) {
+               System.out.print(netInterfaces.ToString());
+              Thread.sleep(10000);
+           }
+            //NetInterfaces netInterfaces = new NetInterfaces();
+            //System.out.print(netInterfaces.ToString());
+
+
+
+
         }
     }
 
