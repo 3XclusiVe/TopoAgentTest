@@ -18,6 +18,7 @@ public class TopoAgent implements TickerBehaviour{
     private Ticker Ticker;
     private Thread TickerThread;
 
+
     public TopoAgent() {
 
         IPTable = new Kernel_IP_Table();
@@ -37,6 +38,7 @@ public class TopoAgent implements TickerBehaviour{
         onStart();
 
     }
+
 
     @Override
     public void action() {
@@ -117,10 +119,14 @@ public class TopoAgent implements TickerBehaviour{
             this.Period = fixedPeriod;
     }
 
+    /**
+     * Остановка процесса
+     */
     @Override
     public void stop() {
         Ticker.stop();
         TickerThread.interrupt();
+        TickCount = 0;
     }
 
     /**
@@ -130,7 +136,17 @@ public class TopoAgent implements TickerBehaviour{
             System.out.print(Interfaces.ToString());
     }
 
+    /**
+     * Запись данных в OWL базу данных
+     */
     private void WriteToOWLDataBase() {
             System.out.print(IPTable.ToString());
+    }
+
+    /**
+     * Очистка базы данных
+     */
+    private void RewindOWLDataBase() {
+
     }
 }

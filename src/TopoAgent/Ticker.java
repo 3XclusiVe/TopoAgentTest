@@ -22,7 +22,7 @@ public class Ticker implements Runnable {
             try {
                 Thread.sleep(Agent.getPeriod());
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                break;
             }
         }
 

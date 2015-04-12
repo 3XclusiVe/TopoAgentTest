@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="src">
+    <CLASSES />
+    <JAVADOC>
+      <root url="file://$PROJECT_DIR$/JADE-all-4/jade/doc/api" />
+      <root url="file://$PROJECT_DIR$/JADE-all-4/jade/doc/tools/sniffer/html/jdoc" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/JADE-all-4/jade 3/src" />
+      <root url="file://$PROJECT_DIR$/JADE-all-4" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$/JADE-all-4" recursive="false" type="SOURCES" />
+  </library>
+</component>
